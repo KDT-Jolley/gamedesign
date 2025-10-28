@@ -39,6 +39,7 @@ int main()
 		break;
 	case Game::State::GAME:
 		std::cout << "状態：GAME" << std::endl;
+
 		break;
 	case Game::State::DEBUG:
 		std::cout << "状態：DEBUG" << std::endl;
@@ -65,28 +66,28 @@ int main()
 	// 更新後の状態を表示
 	switch (singletonGame.currentState) {
 	case Game::State::TITLE:
-		std::cout << "タイトル" << std::endl;
+		std::cout << "1ダメージ食らった" << std::endl;
 		break;
 	case Game::State::GAME:
-		std::cout << "ゲーム" << std::endl;
+		std::cout << "2ダメージ食らった" << std::endl;
 		break;
 	case Game::State::DEBUG:
-		std::cout << "デバック" << std::endl;
+		std::cout << "3ダメージ食らった" << std::endl;
 		break;
 	case Game::State::FACTORY:
-		std::cout << "ファクトリーパターン" << std::endl;
+		std::cout << "4ダメージ食らった" << std::endl;
 		break;
 	case Game::State::NWE_TITLE:
-		std::cout << "newタイトル" << std::endl;
+		std::cout << "5ダメージ食らった" << std::endl;
 		break;
 	case Game::State::NWE_GAME:
-		std::cout << "newゲーム" << std::endl;
+		std::cout << "6ダメージ食らった" << std::endl;
 		break;
 	case Game::State::NWE_DEBUG:
-		std::cout << "newデバック" << std::endl;
+		std::cout << "7ダメージ食らった" << std::endl;
 		break;
 	case Game::State::SINGLETON:
-		std::cout << "シングルトン" << std::endl;
+		std::cout << "8ダメージ食らった" << std::endl;
 		break;
 	}
 
@@ -113,6 +114,9 @@ int main()
 	if (pooledGame3) {
 		pooledGame3->displayInfo();
 	}
+
+	
+	
 
 	// プログラム終了
 	return 0;

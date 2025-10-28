@@ -7,11 +7,23 @@
 class Game {
 public:
 	// コンストラクタ
-	Game(int n, const std::string& t) : num(n), title(t) {}
+	Game(int n, const std::string& t) : num(n), HP(t) {}
+	
+	
+	void showStatus(std::string name, int HP) {
+		std::cout << name << "HP" << HP << std::endl;
+	}
 
+	void showDamage(int Damege) {
+		std::cout << Damege << "のダメージ！" << std::endl;
+	}
+
+	void showMessage(std::string msg) {
+		std::cout << msg << std::endl;
+	}
 	// ゲームの情報を表示するメソッド
 	void displayInfo() const {
-		std::cout << "Game Number " << num << "：" << title << std::endl;
+		std::cout << "HP " << num << "のダメージ！" << HP << std::endl;
 	}
 
 	//　ファクトリーパターン
@@ -21,9 +33,9 @@ public:
 	//　データテーブル
 	static std::vector<Game> gameTable() {
 		return {
-			Game(5, "newタイトル"),
-			Game(6, "newゲーム"),
-			Game(7, "newデバック")
+			Game(5, "プレイヤー"),
+			Game(6, "スライム"),
+			Game(7, "攻撃")
 		};
 	}
 
@@ -91,7 +103,7 @@ private:
 	// ゲームの番号
 	int num;
 	// ゲームのタイトル
-	std::string title;
+	std::string HP;
 	// キー入力
 	char inputKey;
 
