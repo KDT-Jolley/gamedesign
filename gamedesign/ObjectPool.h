@@ -3,18 +3,18 @@
 #include <vector>
 #include "game.h"
 
+template<typename T>
 // オブジェクトプールの基本クラス
 class ObjectPool {
 public:
 	// コンストラクタ
 	ObjectPool(size_t size) : poolSize(size) {
 		for (size_t i = 0; i < poolSize; ++i) {
-			pool.push_back(Game(i, "PooledGame" + std::to_string(i)));
 			available.push_back(true);
 		}
 	}
 	// オブジェクトを取得するメソッド
-	Game* acquire() {
+	T* acquire() {
 		for (size_t i = 0; i < poolSize; ++i) {
 			if (available[i]) {
 				available[i] = false;
@@ -24,7 +24,7 @@ public:
 		return nullptr; // プールが空の場合
 	}
 	// オブジェクトを解放するメソッド
-	void release(Game* obj) {
+	void release(T* obj) {
 		for (size_t i = 0; i < poolSize; ++i) {
 			if (&pool[i] == obj) {
 				available[i] = true;
@@ -34,7 +34,7 @@ public:
 	}
 private:
 	size_t poolSize;
-	std::vector<Game> pool;
+	std::vector<T> pool;
 	std::vector<bool> available;
 };
 

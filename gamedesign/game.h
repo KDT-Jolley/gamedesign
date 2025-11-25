@@ -1,15 +1,28 @@
 #pragma once
 #include <string>
 #include <vector>
-
+#include "charabase.h"
+#include <random>
 
 // コンソールゲームの基本クラス
-class Game {
+class Game
+{
+	CharaBase player = CharaBase(10, 2, "勇者");
+	CharaBase enemy = CharaBase(4, 1, "スライム");
 public:
+	//　有限状態機械
+	enum State {
+		TITLE,
+		GAME,
+	};
+
+
+	int currentState = State::TITLE;
+
 	// コンストラクタ
-	Game(int n, const std::string& t) : num(n), HP(t) {}
-	
-	
+	Game() : currentState(1) {}
+
+
 	void showStatus(std::string name, int HP) {
 		std::cout << name << "HP" << HP << std::endl;
 	}
@@ -21,95 +34,63 @@ public:
 	void showMessage(std::string msg) {
 		std::cout << msg << std::endl;
 	}
-	// ゲームの情報を表示するメソッド
-	void displayInfo() const {
-		std::cout << "HP " << num << "のダメージ！" << HP << std::endl;
-	}
 
-	//　ファクトリーパターン
-	static Game createGame(int n, const std::string& t) {
-		return Game(n, t);
-	}
-	//　データテーブル
-	static std::vector<Game> gameTable() {
-		return {
-			Game(5, "プレイヤー"),
-			Game(6, "スライム"),
-			Game(7, "攻撃")
-		};
-	}
-
-	//　シングルトン
-	static Game& getInstance() {
-		static Game instance(8, "シングルトン");
-		return instance;
-	}
-
-	//　有限状態機械
-	enum class State {
-		TITLE,
-		GAME,
-		DEBUG,
-		FACTORY,
-		NWE_TITLE,
-		NWE_GAME,
-		NWE_DEBUG,
-		SINGLETON,
-	};
-	State currentState = State::TITLE;
-
-	// ゲームの更新メソッド
-	void update() {
+	// ゲームステートに切り替え
+	void changeState() {
 		// キー入力を取得
-		std::cin >> inputKey;
-		// 入力に応じて状態を変更
-		switch (inputKey) {
-		case '1':
-			currentState = State::TITLE;
-			break;
-		case '2':
-			currentState = State::GAME;
-			break;
-		case '3':
-			currentState = State::DEBUG;
-			break;
-		case '4':
-			currentState = State::FACTORY;
-			break;
-		case '5':
-			currentState = State::NWE_TITLE;
-			break;
-		case '6':
-			currentState = State::NWE_GAME;
-			break;
-		case '7':
-			currentState = State::NWE_DEBUG;
-			break;
-		case '8':
-			currentState = State::SINGLETON;
-			break;
-		default:
-			break;
-		}
+		int a = 0;
+		std::cin >> a;
+		currentState = State::GAME;
+		std::cout << "戦闘開始" << std::endl;
+		std::cout << "スライムが現れた！" << std::endl;
 
 	}
 
+	void Update()
+	{
+		int inputNum = 0;
+		while (true)
+		{
+			std::cout << player.name << ":" << player.hp << "/10\n";
+			std::cout << "1で攻撃\n";
+			std::cout << "2で回復\n";
+			std::cin >> inputNum;
+			enemy.atk = rand() % 10 + 1;
 
-	
+			switch (inputNum)
+			{
+			case 1:
+				player.attack(enemy.hp);
+				std::cout<<  player.name <<"が"<< enemy.name << "に" << player.atk << "のダメージを与えた" << std::endl;
 
+				enemy.attack(player.hp);
+				std::cout << enemy.name << "が" << player.name << "に" << enemy.atk << "のダメージを与えた" << std::endl;
+				break;
+			case 2:
+				player.Heal();
+				enemy.attack(player.hp);
+				std::cout << enemy.name << "が" << player.name << "に" << enemy.atk << "のダメージを与えた" << std::endl;
+				break;
+			default:
+				break;
+			}
 
-	
-private:
-	// ゲームの番号
-	int num;
-	// ゲームのタイトル
-	std::string HP;
-	// キー入力
-	char inputKey;
+			if (enemy.hp <= 0 && player.hp <= 0)
+			{
+				std::cout << "相打ち\n";
+				break;
+			}
+			else if (enemy.hp <= 0)
+			{
+				std::cout << "かった\n";
+				break;
+			}
+			else if (player.hp <= 0)
+			{
+				std::cout << "負けた\n";
+				break;
+			}
 
-
-
-	
-
-
+		}
+	}
 };

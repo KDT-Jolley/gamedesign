@@ -130,6 +130,7 @@
     <ClCompile Include="gamedesign.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="charabase.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="ObjectPool.h" />
   </ItemGroup>
